@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  k6:
+    image: xk6
+    container_name: k6
+    entrypoint: sh
+    stdin_open: true
+    tty: true
+    ports: 
+      - "5656:5656"
+
+
