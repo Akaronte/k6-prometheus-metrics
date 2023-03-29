@@ -1,0 +1,29 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    k6-app: k6
+    servicemonitor: k6
+    app: k6
+    name: k6
+  name: k6
+  namespace: k6
+spec:
+  labelLimit: 400
+  targetLabels:
+    - metricsfrequency
+  sampleLimit: 300000
+  labelNameLengthLimit: 128
+  jobLabel: component
+  labelValueLengthLimit: 1200
+  endpoints:
+    - interval: 30s
+      path: /metrics
+      port: metrics
+      scheme: http
+  namespaceSelector:
+    matchNames:
+    - k6
+  selector:
+    matchLabels:
+      app: k6

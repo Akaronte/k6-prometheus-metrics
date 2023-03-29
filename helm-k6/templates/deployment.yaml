@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xk6-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k6
+  template:
+    metadata:
+      labels:
+        app: k6
+    spec:
+      containers:
+        - name: xk6-test
+          image: {{ .Values.k6Image }}
+          command: ["/bin/sh"]
+          args: ["-c", "k6 run -d 10m --out prometheus script.js"]
+          ports:
+            - containerPort: 5656
+              name: metrics
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File

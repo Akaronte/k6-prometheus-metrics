@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   k6:
-    image: xk6
+    image: k6
     container_name: k6
     entrypoint: sh
     stdin_open: true

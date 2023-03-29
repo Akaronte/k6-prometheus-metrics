@@ -1,0 +1,9 @@
+k6Image: registry.piensoluegoinstalo.com:5000/k6:latest   
+namespace: k6
+resources:
+  limits:
+    cpu: 400m
+    memory: 512M
+  requests:
+    cpu: 300m
+    memory: 256M
