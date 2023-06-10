@@ -1,32 +1,84 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: xk6-test
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: k6
+#   template:
+#     metadata:
+#       labels:
+#         app: k6
+#     spec:
+#       containers:
+#         - name: xk6-test
+#           image: {{ .Values.k6Image }}
+#           command: ["/bin/sh"]
+#           args: ["-c", "k6 run -d 10m --out prometheus script.js"]
+#           ports:
+#             - containerPort: 5656
+#               name: metrics
+#           imagePullPolicy: Always
+#           resources:
+#             limits:
+#               cpu: {{ .Values.resources.limits.cpu }}
+#               memory: {{ .Values.resources.limits.memory }}
+#             requests:
+#               cpu: {{ .Values.resources.requests.cpu }}
+#               memory: {{ .Values.resources.requests.memory }}
+#           terminationMessagePath: /dev/termination-log
+#           terminationMessagePolicy: File
+# ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: xk6-test
+  name: k6-prometheus
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: k6
+      app: k6-prometheus
   template:
     metadata:
       labels:
-        app: k6
+        app: k6-prometheus
     spec:
       containers:
-        - name: xk6-test
-          image: {{ .Values.k6Image }}
-          command: ["/bin/sh"]
-          args: ["-c", "k6 run -d 10m --out prometheus script.js"]
-          ports:
-            - containerPort: 5656
-              name: metrics
-          imagePullPolicy: Always
-          resources:
-            limits:
-              cpu: {{ .Values.resources.limits.cpu }}
-              memory: {{ .Values.resources.limits.memory }}
-            requests:
-              cpu: {{ .Values.resources.requests.cpu }}
-              memory: {{ .Values.resources.requests.memory }}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
+      - name: k6
+        image: registry.piensoluegoinstalo.com:5000/k6:latest
+        env:
+          - name: K6_PROMETHEUS_RW_SERVER_URL
+            value: http://localhost:9090/api/v1/write
+        command:
+        - "/bin/sh"
+        - "-c"
+        - "k6 run -d 5m -o experimental-prometheus-rw  /home/k6/script.js"
+        volumeMounts:
+        - name: k6-scripts-volume
+          mountPath: /scripts
+      - name: prometheus
+        image: prom/prometheus:v2.36.2
+        command:
+        - "/bin/prometheus"
+        - "--config.file=/etc/prometheus/prometheus.yml"
+        - "--storage.tsdb.path=/prometheus"
+        - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+        - "--web.console.templates=/usr/share/prometheus/consoles"
+        - "--enable-feature=remote-write-receiver"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9090
+        volumeMounts:
+        - name: prometheus-config-volume
+          mountPath: /prometheus/prometheus.yml
+          subPath: prometheus.yml
+      volumes:
+      - name: k6-scripts-volume
+        configMap:
+          name: k6-scripts
+      - name: prometheus-config-volume
+        configMap:
+          name: prometheus-config
+---
