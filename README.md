@@ -29,3 +29,7 @@ http://localhost:9090/targets
 ref https://pkg.go.dev/github.com/jhzhu89/xk6-prometheus#section-readme
 ref https://github.com/szkiba/xk6-prometheus
 ref https://k6.io/docs/extensions/guides/build-a-k6-binary-with-extensions/
+
+
+
+curl -X POST http://write-k6.apps.kube1.okd.piensoluegoinstalo.com/api/v1/write

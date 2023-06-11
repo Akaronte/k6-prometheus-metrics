@@ -1,0 +1,15 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: prometheus
+  labels:
+    app: k6-prometheus
+spec:
+  host: prometheus-k6.apps.kube1.okd.piensoluegoinstalo.com
+  to:
+    kind: Service
+    name: k6-prometheus
+    weight: 100
+  port:
+    targetPort: metrics
+  wildcardPolicy: None
