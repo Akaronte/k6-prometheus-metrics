@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  prometheus:
+    image: registry.piensoluegoinstalo.com:5000/prometheus:v2.36.2
+    container_name: prometheus
+    #entrypoint: sh
+    entrypoint:  ["sh", "-c", "/bin/prometheus","--config.file=/prometheus/prometheus.yml","--storage.tsdb.path=/prometheus","--web.console.libraries=/usr/share/prometheus/console_libraries","--web.console.templates=/usr/share/prometheus/consoles","--enable-feature=remote-write-receiver"]
+    stdin_open: true
+    volumes:
+      - ./prometheus.yml:/prometheus/prometheus.yml
+    tty: true
+    ports: 
+      - "9090:9090"
+
+
