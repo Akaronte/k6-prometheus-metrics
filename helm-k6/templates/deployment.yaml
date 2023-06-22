@@ -51,6 +51,8 @@ spec:
         env:
           - name: K6_PROMETHEUS_RW_SERVER_URL
             value: http://localhost:9090/api/v1/write
+          - name: K6_PROMETHEUS_RW_STALE_MARKERS
+            value: 'true'
         command:
         - "/bin/sh"
         - "-c"
@@ -64,8 +66,6 @@ spec:
         - "/bin/prometheus"
         - "--config.file=/prometheus/prometheus.yml"
         - "--storage.tsdb.path=/prometheus"
-        - "--web.console.libraries=/usr/share/prometheus/console_libraries"
-        - "--web.console.templates=/usr/share/prometheus/consoles"
         - "--enable-feature=remote-write-receiver"
         imagePullPolicy: Always
         ports:
