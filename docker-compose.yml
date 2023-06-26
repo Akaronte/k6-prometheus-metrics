@@ -3,7 +3,7 @@ services:
   k6:
     image: k6
     container_name: k6
-    entrypoint: k6 run -d 5m -o experimental-prometheus-rw --tag testid=k6-111 /home/k6/script.js
+    entrypoint: k6 run -d 5m -o experimental-prometheus-rw /home/k6/script.js
     stdin_open: true
     tty: true
     environment:

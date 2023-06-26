@@ -1,63 +1,35 @@
 ---
 modules:
-  default:
-    # headers:
-    #   X-Dummy: k6-metrics
+
+  k6_vus:
     metrics:
     - name: k6
       type: object
-      path: '{ [*] }'
-      # epochTimestamp: '{ .timestamp }'
-      help: Example of a timestamped value scrape in the json
-      # labels:
-      #   k6_vus: '{ .status }'
+      path: '{ .data }'
+      epochTimestamp: '{ .timestamp }'
+      help: counter
       valuetype: counter
       values:
-        vus: '{ .data.result[].value[0] }'
-
-
-  animals:
+        vus: '{ .result[].value[1] }'
+        
+  k6_vus_max:
     metrics:
-    - name: animal
+    - name: k6
       type: object
-      help: Example of top-level lists in a separate module
-      path: '{ [*] }'
-      labels:
-        name: '{ .noun }'
-        predator: '{ .predator }'
+      path: '{ .data }'
+      epochTimestamp: '{ .timestamp }'
+      help: Example of a timestamped value scrape in the json
+      valuetype: counter
       values:
-        population: '{ .population }'
-    # - name: k6
-    #   type: object
-    #   path: '{ [*] }'
-    #   # epochTimestamp: '{ .timestamp }'
-    #   help: Example of a timestamped value scrape in the json
-    #   # labels:
-    #   #   k6_vus: '{ .status }'
-    #   values:
-    #     vus: '{ .data.result[].val }'
+        vus_max: '{ .result[].value[1] }'
 
-    ## HTTP connection configurations can be set in 'modules.<module_name>.http_client_config' field. For full http client config parameters, ref: https://pkg.go.dev/github.com/prometheus/common/config?tab=doc#HTTPClientConfig
-    #
-    # http_client_config:
-    #   tls_config:
-    #     insecure_skip_verify: true
-    #   basic_auth:
-    #     username: myuser
-    #     #password: veryverysecret
-    #     password_file: /tmp/mysecret.txt
-
-    ## List of accepted status codes for this probe can be set in 'modules.<module_name>.valid_status_codes' field. Defaults to 2xx.
-    # valid_status_codes: [ <int>, ... | default = 2xx ]
-
-    ## If 'modueles.<module_name>.body' field is set, it will be sent by the exporter as the body content in the scrape request. The HTTP method will also be set as 'POST' in this case.
-    # body:
-    #   content: |
-    #     {"time_diff": "1m25s", "anotherVar": "some value"}
-
-    ## The body content can also be a Go Template (https://golang.org/pkg/text/template), with all the functions from the Sprig library (https://masterminds.github.io/sprig/) available. All the query parameters sent by prometheus in the scrape query to the exporter, are available in the template.
-    # body:
-    #   content: |
-    #     {"time_diff": "{{ duration `95` }}","anotherVar": "{{ .myVal | first }}"}
-    #   templatize: true
-
+  k6_data_received_total:
+    metrics:
+    - name: k6
+      type: object
+      path: '{ .data }'
+      epochTimestamp: '{ .timestamp }'
+      help: Example of a timestamped value scrape in the json
+      valuetype: gauge
+      values:
+        data_received_total: '{ .result[-1].value[1] }'
