@@ -11,6 +11,7 @@ modules:
       help: Example of a timestamped value scrape in the json
       # labels:
       #   k6_vus: '{ .status }'
+      valuetype: counter
       values:
         vus: '{ .data.result[].value[0] }'
 
