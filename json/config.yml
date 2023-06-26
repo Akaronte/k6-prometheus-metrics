@@ -12,7 +12,7 @@ modules:
       # labels:
       #   k6_vus: '{ .status }'
       values:
-        vus: '{ .data.result[].val }'
+        vus: '{ .data.result[].value[0] }'
 
 
   animals:

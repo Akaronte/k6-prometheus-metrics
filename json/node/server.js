@@ -28,12 +28,10 @@ http.createServer(function (req, res) {
 				"resultType": 8,
 				"result": [
 					{
-						"val": 9
-					},
-					{
 						"metric": {
 							"__name__": "k6_vus",
-							"testid": "k6-111"
+							"testid": "k6-111",
+							"val": 4
 						},
 						"value": [
 							1687768382.135,
