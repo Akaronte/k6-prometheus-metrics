@@ -1,6 +1,6 @@
 ---
 modules:
-
+  default:
   k6_vus:
     metrics:
     - name: k6
@@ -10,8 +10,7 @@ modules:
       help: counter
       valuetype: counter
       values:
-        vus: '{ .result[].value[1] }'
-        
+        vus: '{ .result[-1].value[1] }'
   k6_vus_max:
     metrics:
     - name: k6
@@ -21,8 +20,7 @@ modules:
       help: Example of a timestamped value scrape in the json
       valuetype: counter
       values:
-        vus_max: '{ .result[].value[1] }'
-
+        vus_max: '{ .result[-1].value[1] }'
   k6_data_received_total:
     metrics:
     - name: k6

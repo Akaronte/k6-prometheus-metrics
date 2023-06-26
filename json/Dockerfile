@@ -1,11 +1,7 @@
-ARG ARCH="amd64"
-ARG OS="linux"
-FROM quay.io/prometheus/busybox-${OS}-${ARCH}:glibc
-LABEL maintainer="The Prometheus Authors <prometheus-developers@googlegroups.com>"
+FROM alpine:3.17
+RUN apk search curl
+RUN apk --no-cache add curl
 
-ARG ARCH="amd64"
-ARG OS="linux"
-# COPY .build/${OS}-${ARCH}/json_exporter /bin/json_exporter
 COPY json_exporter /bin/json_exporter
 
 RUN chmod a+x /bin/json_exporter
