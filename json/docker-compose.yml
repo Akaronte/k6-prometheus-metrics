@@ -1,0 +1,14 @@
+
+version: "3.8"
+services:
+  jsonexporter:
+    image: json-exporter
+    container_name: json-exporter
+    #: /bin/json-exporter --config.file=/json-config.yml
+    command: /bin/json_exporter --config.file=/config.yml
+    stdin_open: true
+    volumes:
+      - ./config.yml:/config.yml
+    tty: true
+    ports: 
+      - "7979:7979"

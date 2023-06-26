@@ -56,18 +56,29 @@ spec:
         command:
         - "/bin/sh"
         - "-c"
-        - "k6 run -d 5m -o experimental-prometheus-rw  /home/k6/script.js"
+        - "k6 run -d 5m -o experimental-prometheus-rw /home/k6/script.js"
         volumeMounts:
         - name: k6-scripts-volume
           mountPath: /scripts
       - name: prometheus
-        image: prom/prometheus:v2.36.2
+        image: prom/prometheus:v2.44.0
         command:
         - "/bin/prometheus"
         - "--config.file=/prometheus/prometheus.yml"
-        - "--storage.tsdb.path=/prometheus"
+        - "--storage.tsdb.path=/tmp"
+        - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+        - "--web.console.templates=/usr/share/prometheus/consoles"
         - "--enable-feature=remote-write-receiver"
+        - "--enable-feature=exemplar-storage"
+        - "--enable-feature=native-histograms"
         imagePullPolicy: Always
+        # resources:
+        #   limits:
+        #     cpu: 1000
+        #     memory: 2Gi
+        #   requests:
+        #     cpu: 500
+        #     memory: 1Gi
         ports:
         - containerPort: 9090
         volumeMounts:

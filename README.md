@@ -33,3 +33,9 @@ ref https://k6.io/docs/extensions/guides/build-a-k6-binary-with-extensions/
 
 
 curl -X POST http://write-k6.apps.kube1.okd.piensoluegoinstalo.com/api/v1/write
+
+curl -X POST http://promehteus:9090/api/v1/write
+
+k6 run -d 5m -o experimental-prometheus-rw /home/k6/script.js
+
+http://exporter:7979/probe?target=h

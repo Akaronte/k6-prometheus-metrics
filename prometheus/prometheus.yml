@@ -1,11 +1,27 @@
 global:
   scrape_interval: 15s
 
+scrape_configs:
+  - job_name: job-prometheus
+    static_configs:
+      - targets: ['localhost:9090']
+
 remote_write:
   - url: 'http://localhost:9090/api/v1/write'
+    name: k6write
+    send_exemplars: true
+    send_native_histograms: true
     remote_timeout: 30s
     queue_config:
       capacity: 10000
       min_backoff: 2s
       max_backoff: 10s
       max_samples_per_send: 1000
+
+# remote_read:
+#   - url: 'http://localhost:9090/api/v1/read'
+#     name: k6read
+#     read_recent: true
+  
+rule_files:
+  - /prometheus/rules.yml

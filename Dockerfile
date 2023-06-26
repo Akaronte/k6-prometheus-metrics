@@ -1,8 +1,6 @@
 FROM golang:1.20-alpine as builder
 WORKDIR $GOPATH/src/go.k6.io/k6
 RUN apk add git
-RUN apk search curl
-RUN apk --no-cache add curl
 RUN git clone https://github.com/grafana/k6.git .
 
 COPY . .
@@ -16,6 +14,8 @@ RUN go install go.k6.io/xk6/cmd/xk6@latest
 RUN xk6 build --with github.com/grafana/xk6-output-prometheus-remote@latest 
 
 FROM alpine:3.17
+RUN apk search curl
+RUN apk --no-cache add curl
 
 RUN adduser k6 -D -h /home/k6
 USER k6

@@ -4,10 +4,11 @@ services:
     image: registry.piensoluegoinstalo.com:5000/prometheus:v2.36.2
     container_name: prometheus
     #entrypoint: sh
-    entrypoint:  ["sh", "-c", "/bin/prometheus","--config.file=/prometheus/prometheus.yml"]
+    entrypoint:  ["sh", "-c", "/bin/prometheus","--config.file=/prometheus/prometheus.yml","--enable-feature=remote-write-receiver"]
     stdin_open: true
     volumes:
       - ./prometheus.yml:/prometheus/prometheus.yml
+      - ./prometheus/rules.yml:/prometheus/rules.yml
     tty: true
     ports: 
       - "9090:9090"

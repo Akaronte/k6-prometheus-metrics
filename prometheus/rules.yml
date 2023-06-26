@@ -1,0 +1,5 @@
+groups:
+- name: rules
+  rules:
+  - record: rec_k6_vus
+    expr: k6_vus

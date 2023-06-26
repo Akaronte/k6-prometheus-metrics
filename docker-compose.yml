@@ -3,10 +3,47 @@ services:
   k6:
     image: k6
     container_name: k6
-    entrypoint: sh
+    entrypoint: k6 run -d 5m -o experimental-prometheus-rw --tag testid=k6-111 /home/k6/script.js
     stdin_open: true
     tty: true
+    environment:
+      - K6_PROMETHEUS_RW_SERVER_URL=http://prometheus:9090/api/v1/write
+      #- K6_PROMETHEUS_RW_SERVER_URL=http://write-k6.apps.kube1.okd.piensoluegoinstalo.com/api/v1/write
+      - K6_PROMETHEUS_RW_TREND_AS_NATIVE_HISTOGRAM=true
+      # - K6_PROMETHEUS_RW_TREND_STATS=p(90),avg,sum
+      - K6_PROMETHEUS_RW_STALE_MARKERS=true
+    networks:
+      - k6net
+  prometheus:
+    image: prom/prometheus:v2.42.0
+    hostname: prometheus
+    container_name: prometheus
+    entrypoint: /bin/prometheus --config.file=/prometheus/prometheus.yml --enable-feature=remote-write-receiver --enable-feature=native-histograms --enable-feature=exemplar-storage --log.level=debug
+    #command:  ["sh", "-c", "/bin/prometheus","--config.file=/prometheus/prometheus.yml","--enable-feature=remote-write-receiver","--web.enable-remote-write-receiver","--storage.tsdb.path=/data","--enable-feature=native-histograms"]
+    stdin_open: true
+    volumes:
+      - ./prometheus/prometheus.yml:/prometheus/prometheus.yml
+      # - ./prometheus/data:/data
+      - ./prometheus/rules.yml:/prometheus/rules.yml
+    tty: true
     ports: 
-      - "5656:5656"
+      - "9090:9090"
+    networks:
+      - k6net
+  jsonexporter:
+    image: json-exporter
+    container_name: json-exporter
+    command: /bin/json_exporter --config.file=/config.yml
+    stdin_open: true
+    volumes:
+      - ./json/config.yml:/config.yml
+    tty: true
+    ports: 
+      - "7979:7979"
+    networks:
+      - k6net
+networks:
+  k6net:
+    driver: bridge
 
 
