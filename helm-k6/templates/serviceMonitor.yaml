@@ -48,6 +48,13 @@ spec:
     - interval: 30s
       path: /probe
       params:
+        target: ['http://localhost:9090/api/v1/query?query=k6_iterations_total']
+        module: ['k6_iterations_total']
+      port: json
+      scheme: http
+    - interval: 30s
+      path: /probe
+      params:
         target: ['http://localhost:9090/api/v1/query?query=k6_vus']
         module: ['k6_vus']
       port: json

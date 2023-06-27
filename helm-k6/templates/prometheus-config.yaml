@@ -42,6 +42,13 @@ data:
           target: ['http://localhost:9090/api/v1/query?query=k6_http_reqs_total']
         static_configs:
           - targets: ['localhost:7979']
+      - job_name: k6_iterations_total
+        metrics_path: /probe
+        params:
+          module: ['k6_iterations_total']
+          target: ['http://localhost:9090/api/v1/query?query=k6_iterations_total']
+        static_configs:
+          - targets: ['localhost:7979']
       - job_name: k6_vus_max
         metrics_path: /probe
         params:
