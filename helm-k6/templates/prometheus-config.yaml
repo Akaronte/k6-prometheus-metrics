@@ -6,24 +6,33 @@ data:
   prometheus.yml: |
     global:
       scrape_interval: 5s
-      external_labels:
-        provider: k6
-    # scrape_configs:
-    #   - job_name: 'k6-prometheus'
-    #     scrape_interval: 5s
-    #     static_configs:
-    #       - targets: ['localhost:9090']
-    # scrape_configs:
-    #   - job_name: 'tsdb_metrics'
-    #     file_sd_configs:
-    #       - files:
-    #           - '/path/to/metrics/*.txt'
-    #     metrics_path: '/metrics'
+    scrape_configs:
+      - job_name: k6_vus
+        metrics_path: /probe
+        params:
+          module: ['k6_vus']
+          target: ['http://localhost:9090/api/v1/query?query=k6_vus']
+        static_configs:
+          - targets: ['localhost:7979']
+      - job_name: k6_vus_max
+        metrics_path: /probe
+        params:
+          module: ['k6_vus_max']
+          target: ['http://localhost:9090/api/v1/query?query=k6_vus_max']
+        static_configs:
+          - targets: ['localhost:7979']
+      - job_name: k6_data_received_total
+        metrics_path: /probe
+        params:
+          module: ['k6_data_received_total']
+          target: ['http://localhost:9090/api/v1/query?query=k6_data_received_total']
+        static_configs:
+          - targets: ['localhost:7979']
     remote_write:
       - url: 'http://localhost:9090/api/v1/write'
+        remote_timeout: 30s
         queue_config:
-          capacity: 100000
+          capacity: 10000
           min_backoff: 2s
           max_backoff: 10s
           max_samples_per_send: 1000
-          max_shards: 1000

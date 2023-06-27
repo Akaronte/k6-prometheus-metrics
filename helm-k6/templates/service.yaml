@@ -12,8 +12,8 @@ spec:
       protocol: TCP
       port: 9090
       targetPort: 9090
-    - name: write
+    - name: json
       protocol: TCP
-      port: 9091
-      targetPort: 9091
+      port: 7979
+      targetPort: 7979
 

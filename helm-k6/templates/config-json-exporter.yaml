@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-json-exporter
+data:
+  config.yml: |
+    ---
+    modules:
+      default:
+      k6_vus:
+        metrics:
+        - name: k6
+          type: object
+          path: '{ .data }'
+          help: k6_vus k6 virtual user
+          valuetype: gauge
+          values:
+            vus: '{ .result[0].value[1] }'
+      k6_vus_max:
+        metrics:
+        - name: k6
+          type: object
+          path: '{ .data }'
+          help: k6_vus_,ax k6 virtual user max
+          valuetype: gauge
+          values:
+            vus_max: '{ .result[0].value[1] }'
+      k6_data_received_total:
+        metrics:
+        - name: k6
+          type: object
+          path: '{ .data }'
+          help: k6_data_received_total 
+          valuetype: counter
+          values:
+            data_received_total: '{ .result[0].value[1] }'

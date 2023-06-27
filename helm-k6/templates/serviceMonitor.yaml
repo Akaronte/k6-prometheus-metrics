@@ -4,7 +4,7 @@ metadata:
   labels:
     k6-app: k6
     servicemonitor: k6
-    app: k6
+    app: k6-prometheus
     name: k6
   name: k6
   namespace: k6
@@ -18,12 +18,12 @@ spec:
   labelValueLengthLimit: 1200
   endpoints:
     - interval: 30s
-      path: /metrics
-      port: metrics
+      path: /probe?target=http://localhost:9090/api/v1/query?query=k6_vus&module=k6_vus
+      port: json
       scheme: http
   namespaceSelector:
     matchNames:
     - k6
   selector:
     matchLabels:
-      app: k6
+      app: k6-prometheus

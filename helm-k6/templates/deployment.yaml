@@ -46,50 +46,65 @@ spec:
         app: k6-prometheus
     spec:
       containers:
-      - name: k6
-        image: registry.piensoluegoinstalo.com:5000/k6:latest
-        env:
-          - name: K6_PROMETHEUS_RW_SERVER_URL
-            value: http://localhost:9090/api/v1/write
-          - name: K6_PROMETHEUS_RW_STALE_MARKERS
-            value: 'true'
-        command:
-        - "/bin/sh"
-        - "-c"
-        - "k6 run -d 5m -o experimental-prometheus-rw /home/k6/script.js"
-        volumeMounts:
-        - name: k6-scripts-volume
-          mountPath: /scripts
-      - name: prometheus
-        image: prom/prometheus:v2.44.0
-        command:
-        - "/bin/prometheus"
-        - "--config.file=/prometheus/prometheus.yml"
-        - "--storage.tsdb.path=/tmp"
-        - "--web.console.libraries=/usr/share/prometheus/console_libraries"
-        - "--web.console.templates=/usr/share/prometheus/consoles"
-        - "--enable-feature=remote-write-receiver"
-        - "--enable-feature=exemplar-storage"
-        - "--enable-feature=native-histograms"
-        imagePullPolicy: Always
-        # resources:
-        #   limits:
-        #     cpu: 1000
-        #     memory: 2Gi
-        #   requests:
-        #     cpu: 500
-        #     memory: 1Gi
-        ports:
-        - containerPort: 9090
-        volumeMounts:
-        - name: prometheus-config-volume
-          mountPath: /prometheus/prometheus.yml
-          subPath: prometheus.yml
+        - name: k6
+          image: registry.piensoluegoinstalo.com:5000/k6:latest
+          env:
+            - name: K6_PROMETHEUS_RW_SERVER_URL
+              value: http://localhost:9090/api/v1/write
+            - name: K6_PROMETHEUS_RW_STALE_MARKERS
+              value: 'true'
+          command:
+          - "/bin/sh"
+          - "-c"
+          - "k6 run -d 5m -o experimental-prometheus-rw /home/k6/script.js"
+          volumeMounts:
+          - name: k6-scripts-volume
+            mountPath: /scripts
+        - name: prometheus
+          image: prom/prometheus:v2.44.0
+          command:
+          - "/bin/prometheus"
+          - "--config.file=/prometheus/prometheus.yml"
+          - "--storage.tsdb.path=/tmp"
+          - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+          - "--web.console.templates=/usr/share/prometheus/consoles"
+          - "--enable-feature=remote-write-receiver"
+          - "--enable-feature=exemplar-storage"
+          - "--enable-feature=native-histograms"
+          imagePullPolicy: Always
+          # resources:
+          #   limits:
+          #     cpu: 1000
+          #     memory: 2Gi
+          #   requests:
+          #     cpu: 500
+          #     memory: 1Gi
+          ports:
+          - containerPort: 9090
+          volumeMounts:
+          - name: prometheus-config-volume
+            mountPath: /prometheus/prometheus.yml
+            subPath: prometheus.yml
+        - name: json-exporter
+          image: registry.piensoluegoinstalo.com:5000/json-exporter 
+          command:
+            - "/bin/json_exporter"
+            - "--config.file=/tmp/config.yml"
+          ports:
+            - containerPort: 7979
+              name: json
+          volumeMounts:
+          - name: json-exporter-config-volume
+            mountPath: /tmp/config.yml
+            subPath: config.yml
       volumes:
-      - name: k6-scripts-volume
-        configMap:
-          name: k6-scripts
-      - name: prometheus-config-volume
-        configMap:
-          name: prometheus-config
+        - name: k6-scripts-volume
+          configMap:
+            name: k6-scripts
+        - name: prometheus-config-volume
+          configMap:
+            name: prometheus-config
+        - name: json-exporter-config-volume
+          configMap:
+            name: config-json-exporter
 ---
