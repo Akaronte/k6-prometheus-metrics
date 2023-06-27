@@ -7,21 +7,11 @@ modules:
       type: object
       path: '{ .data }'
       epochTimestamp: '{ .timestamp }'
-      help: counter
-      valuetype: counter
+      help: K6_vus k6 virtual user
+      valuetype: gauge
       values:
-        vus: '{ .result[-1].value[1] }'
+        vus: '{ .result[0].value[1] }'
   k6_vus_max:
-    metrics:
-    - name: k6
-      type: object
-      path: '{ .data }'
-      epochTimestamp: '{ .timestamp }'
-      help: Example of a timestamped value scrape in the json
-      valuetype: counter
-      values:
-        vus_max: '{ .result[-1].value[1] }'
-  k6_data_received_total:
     metrics:
     - name: k6
       type: object
@@ -30,4 +20,14 @@ modules:
       help: Example of a timestamped value scrape in the json
       valuetype: gauge
       values:
-        data_received_total: '{ .result[-1].value[1] }'
+        vus_max: '{ .result[0].value[1] }'
+  k6_data_received_total:
+    metrics:
+    - name: k6
+      type: object
+      path: '{ .data }'
+      epochTimestamp: '{ .timestamp }'
+      help: Example of a timestamped value scrape in the json
+      valuetype: counter
+      values:
+        data_received_total: '{ .result[0].value[1] }'

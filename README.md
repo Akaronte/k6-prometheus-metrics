@@ -38,4 +38,10 @@ curl -X POST http://promehteus:9090/api/v1/write
 
 k6 run -d 5m -o experimental-prometheus-rw /home/k6/script.js
 
-http://exporter:7979/probe?target=h
+http://localhost:7979/probe?target=http://prometheus:9090/api/v1/query?query=k6_data_received_total&module=k6_data_received_total
+
+
+http://localhost:7979/probe?target=http://prometheus:9090/api/v1/query?query=k6_vus&module=k6_vus
+
+
+curl -X GET "http://localhost:7979/probe?target=http://prometheus:9090/api/v1/query?query=k6_vus&module=k6_vus" | promtool check metrics
