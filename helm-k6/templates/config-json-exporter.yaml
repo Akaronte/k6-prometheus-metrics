@@ -8,6 +8,8 @@ data:
     modules:
       default:
       k6_vus:
+        headers:
+         Content-Type: text/plain; version=0.0.4; charset=utf-8
         metrics:
         - name: k6
           type: object
@@ -17,6 +19,8 @@ data:
           values:
             vus: '{ .result[0].value[1] }'
       k6_vus_max:
+        headers:
+         Content-Type: text/plain; version=0.0.4; charset=utf-8
         metrics:
         - name: k6
           type: object
@@ -26,6 +30,8 @@ data:
           values:
             vus_max: '{ .result[0].value[1] }'
       k6_data_received_total:
+        headers:
+         Content-Type: text/plain; version=0.0.4; charset=utf-8
         metrics:
         - name: k6
           type: object
