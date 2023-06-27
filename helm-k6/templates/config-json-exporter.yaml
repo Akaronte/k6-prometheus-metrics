@@ -34,6 +34,15 @@ data:
           valuetype: counter
           values:
             http_reqs_total: '{ .result[0].value[1] }'
+      k6_http_req_failed_rate:
+        metrics:
+        - name: k6
+          type: object
+          path: '{ .data }'
+          help: k6_http_req_failed_rate
+          valuetype: rate
+          values:
+            http_req_failed_rate: '{ .result[0].value[1] }'
       k6_vus:
         metrics:
         - name: k6

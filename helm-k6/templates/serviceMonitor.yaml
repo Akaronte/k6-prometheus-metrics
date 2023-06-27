@@ -41,6 +41,13 @@ spec:
     - interval: 30s
       path: /probe
       params:
+        target: ['http://localhost:9090/api/v1/query?query=k6_http_req_failed_rate']
+        module: ['k6_http_req_failed_rate']
+      port: json
+      scheme: http
+    - interval: 30s
+      path: /probe
+      params:
         target: ['http://localhost:9090/api/v1/query?query=k6_vus']
         module: ['k6_vus']
       port: json

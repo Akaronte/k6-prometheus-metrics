@@ -28,6 +28,13 @@ data:
           target: ['http://localhost:9090/api/v1/query?query=k6_http_reqs_total']
         static_configs:
           - targets: ['localhost:7979']
+      - job_name: k6_http_req_failed_rate
+        metrics_path: /probe
+        params:
+          module: ['k6_http_req_failed_rate']
+          target: ['http://localhost:9090/api/v1/query?query=k6_http_req_failed_rate']
+        static_configs:
+          - targets: ['localhost:7979']
       - job_name: k6_vus
         metrics_path: /probe
         params:
