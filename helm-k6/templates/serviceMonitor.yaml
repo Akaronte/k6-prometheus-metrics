@@ -34,15 +34,15 @@ spec:
     - interval: 30s
       path: /probe
       params:
-        target: ['http://localhost:9090/api/v1/query?query=k6_http_reqs_total']
-        module: ['k6_http_reqs_total']
+        target: ['http://localhost:9090/api/v1/query?query=k6_http_req_failed_rate']
+        module: ['k6_http_req_failed_rate']
       port: json
       scheme: http
     - interval: 30s
       path: /probe
       params:
-        target: ['http://localhost:9090/api/v1/query?query=k6_http_req_failed_rate']
-        module: ['k6_http_req_failed_rate']
+        target: ['http://localhost:9090/api/v1/query?query=k6_http_reqs_total']
+        module: ['k6_http_reqs_total']
       port: json
       scheme: http
     - interval: 30s
