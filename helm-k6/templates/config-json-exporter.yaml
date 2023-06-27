@@ -7,6 +7,33 @@ data:
     ---
     modules:
       default:
+      k6_data_received_total:
+        metrics:
+        - name: k6
+          type: object
+          path: '{ .data }'
+          help: k6_data_received_total 
+          valuetype: counter
+          values:
+            data_received_total: '{ .result[0].value[1] }'
+      k6_data_sent_total:
+        metrics:
+        - name: k6
+          type: object
+          path: '{ .data }'
+          help: k6_data_sent_total 
+          valuetype: counter
+          values:
+            data_sent_total: '{ .result[0].value[1] }'
+      k6_http_reqs_total:
+        metrics:
+        - name: k6
+          type: object
+          path: '{ .data }'
+          help: k6_http_reqs_total
+          valuetype: counter
+          values:
+            http_reqs_total: '{ .result[0].value[1] }'
       k6_vus:
         metrics:
         - name: k6
@@ -25,30 +52,3 @@ data:
           valuetype: gauge
           values:
             vus_max: '{ .result[0].value[1] }'
-      k6_data_received_total:
-        metrics:
-        - name: k6
-          type: object
-          path: '{ .data }'
-          help: k6_data_received_total 
-          valuetype: counter
-          values:
-            data_received_total: '{ .result[0].value[1] }'
-      k6_http_reqs_total:
-        metrics:
-        - name: k6
-          type: object
-          path: '{ .data }'
-          help: k6_http_reqs_total
-          valuetype: counter
-          values:
-            http_reqs_total: '{ .result[0].value[1] }'
-      k6_data_sent_total:
-        metrics:
-        - name: k6
-          type: object
-          path: '{ .data }'
-          help: k6_data_sent_total
-          valuetype: counter
-          values:
-            data_sent_total: '{ .result[0].value[1] }'

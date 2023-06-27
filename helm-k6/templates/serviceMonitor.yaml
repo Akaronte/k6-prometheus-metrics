@@ -20,22 +20,15 @@ spec:
     - interval: 30s
       path: /probe
       params:
-        target: ['http://localhost:9090/api/v1/query?query=k6_vus']
-        module: ['k6_vus']
-      port: json
-      scheme: http
-    - interval: 30s
-      path: /probe
-      params:
-        target: ['http://localhost:9090/api/v1/query?query=k6_vus_max']
-        module: ['k6_vus_max']
-      port: json
-      scheme: http
-    - interval: 30s
-      path: /probe
-      params:
         target: ['http://localhost:9090/api/v1/query?query=k6_data_received_total']
         module: ['k6_data_received_total']
+      port: json
+      scheme: http
+    - interval: 30s
+      path: /probe
+      params:
+        target: ['http://localhost:9090/api/v1/query?query=k6_data_sent_total']
+        module: ['k6_data_sent_total']
       port: json
       scheme: http
     - interval: 30s
@@ -48,8 +41,15 @@ spec:
     - interval: 30s
       path: /probe
       params:
-        target: ['http://localhost:9090/api/v1/query?query=k6_data_sent_total']
-        module: ['k6_data_sent_total']
+        target: ['http://localhost:9090/api/v1/query?query=k6_vus']
+        module: ['k6_vus']
+      port: json
+      scheme: http
+    - interval: 30s
+      path: /probe
+      params:
+        target: ['http://localhost:9090/api/v1/query?query=k6_vus_max']
+        module: ['k6_vus_max']
       port: json
       scheme: http
   namespaceSelector:

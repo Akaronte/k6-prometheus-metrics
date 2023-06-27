@@ -7,6 +7,27 @@ data:
     global:
       scrape_interval: 5s
     scrape_configs:
+      - job_name: k6_data_received_total
+        metrics_path: /probe
+        params:
+          module: ['k6_data_received_total']
+          target: ['http://localhost:9090/api/v1/query?query=k6_data_received_total']
+        static_configs:
+          - targets: ['localhost:7979']
+      - job_name: k6_data_sent_total
+        metrics_path: /probe
+        params:
+          module: ['k6_data_sent_total']
+          target: ['http://localhost:9090/api/v1/query?query=k6_data_sent_total']
+        static_configs:
+          - targets: ['localhost:7979']
+      - job_name: k6_http_reqs_total
+        metrics_path: /probe
+        params:
+          module: ['k6_http_reqs_total']
+          target: ['http://localhost:9090/api/v1/query?query=k6_http_reqs_total']
+        static_configs:
+          - targets: ['localhost:7979']
       - job_name: k6_vus
         metrics_path: /probe
         params:
@@ -19,27 +40,6 @@ data:
         params:
           module: ['k6_vus_max']
           target: ['http://localhost:9090/api/v1/query?query=k6_vus_max']
-        static_configs:
-          - targets: ['localhost:7979']
-      - job_name: k6_data_received_total
-        metrics_path: /probe
-        params:
-          module: ['k6_data_received_total']
-          target: ['http://localhost:9090/api/v1/query?query=k6_data_received_total']
-        static_configs:
-          - targets: ['localhost:7979']
-      - job_name: k6_http_reqs_total
-        metrics_path: /probe
-        params:
-          module: ['k6_http_reqs_total']
-          target: ['http://localhost:9090/api/v1/query?query=k6_http_reqs_total']
-        static_configs:
-          - targets: ['localhost:7979']
-      - job_name: k6_data_sent_total
-        metrics_path: /probe
-        params:
-          module: ['k6_data_sent_total']
-          target: ['http://localhost:9090/api/v1/query?query=k6_data_sent_total']
         static_configs:
           - targets: ['localhost:7979']
     remote_write:
