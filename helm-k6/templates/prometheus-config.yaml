@@ -28,6 +28,20 @@ data:
           target: ['http://localhost:9090/api/v1/query?query=k6_data_received_total']
         static_configs:
           - targets: ['localhost:7979']
+      - job_name: k6_http_reqs_total
+        metrics_path: /probe
+        params:
+          module: ['k6_http_reqs_total']
+          target: ['http://localhost:9090/api/v1/query?query=k6_http_reqs_total']
+        static_configs:
+          - targets: ['localhost:7979']
+      - job_name: k6_data_sent_total
+        metrics_path: /probe
+        params:
+          module: ['k6_data_sent_total']
+          target: ['http://localhost:9090/api/v1/query?query=k6_data_sent_total']
+        static_configs:
+          - targets: ['localhost:7979']
     remote_write:
       - url: 'http://localhost:9090/api/v1/write'
         remote_timeout: 30s
